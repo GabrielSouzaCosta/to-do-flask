@@ -4,6 +4,7 @@
 <p>Simple to-do list for training pure Flask.<p>
 <p>It was used Postgresql as database, SQLAlchemy was not used in this app, just direct statements to INSERT, UPDATE, etc.<p>
 <h2>Instructions<h2>
+    
 1. Git clone the repository.
 
 2. In case you want to create a virtual enviromnent, type:
@@ -23,11 +24,15 @@ pip install -r requirements.txt
 python init_db.py
 ```
 
-6.After table successfully created, you need to save your password in a |.env file| or export the variable in the terminal and pass it on the app.py through os.environ.get('USER_PASSWORD')
+6.After table successfully created, you need to save your password in a .env file or export the variable in the terminal and pass it on the app.py through os.environ.get('USER_PASSWORD')
 
 7. Start flask server:
 ```sh
 flask run
 ```
+<h2>Sample Image<h2>
+    
+![image](https://user-images.githubusercontent.com/79537042/170330086-d6ddcdbd-d544-4069-8526-6a45f39073b3.png)
+
 
 
