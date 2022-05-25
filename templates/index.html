@@ -1,3 +1,81 @@
 {% extends 'base.html' %}
 
-<h1>Flask To-do</h1>
+{% block content %} 
+    <h1 class="display-3 text-center">Flask To-do</h1>
+
+    <div class="d-flex flex-column flex-sm-row text-center display-6 mt-4">
+        <div class="col-12 col-md-4 pe-0">
+            <div class="d-flex flex-column">
+                <div class="card bg-danger mb-2">To-do</div>
+            <form method='POST' action="/add">
+                    <div class="input-group">
+                        <div class="d-flex w-100 align-items-center justify-content-center">
+                            <input type="text" name="item"  class="form-control me-2" />
+                            <button class="btn btn-dark me-3 rounded-circle" type="submit">+</button>
+                        </div>
+                    </div>
+            </form>
+            
+            <div class="d-flex flex-column mt-1">
+                {% for todo in todos|not_doing %}
+                <div class="d-flex align-items-center">
+                    <form action="/done" method="POST">
+                        <input onchange="this.form.submit()" type="checkbox" id="done" value="done" style="height: 15px; width: 15px;" class="form-check-input me-2 mt-3 " />
+                        <!-- This input type=hidden is being used to store the id from my todo item, being got in the backend through request.form['id'] where 'id' is the name of the input and is sending its value -->
+                        <input type="hidden" name="id" value="{{ todo[0] }}" />
+                    </form>
+                    <form action="/doing" method='POST'>
+                        <div class="d-flex align-items-center">
+                            <div class="fw-bold text-start text-break ps-2 mb-1" ><u>{{ todo[1] }}</u></div>
+                            <button type="submit" class="btn btn-warning ms-3 me-2 my-2 h-50 float-end">doing</button>
+                        </div>
+                        <input type="hidden" value="{{ todo[0] }}" name="doing_id" />
+                    </form>
+                    <form action="/delete" method='POST'>
+                        <button type="submit" class="btn btn-danger fw-bold my-2 float-end rounded-circle">&#10005;</button>
+                        <input type="hidden" name="delete_id" value="{{ todo[0] }}" />
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        </div>
+        
+        <div class="col-12 col-md-4 pe-0">
+            <div class="d-flex flex-column">
+                <div class="card bg-warning mb-2 ">Doing</div>
+                {% for d in todos|doing %}
+                    <div class="d-flex w-100 align-items-center justify-content-center mb-2">
+                        <form action="/done" method="POST">
+                            <input style="width: 15px; height: 15px;" onchange="this.form.submit()" class="form-check-input mx-2 mt-2 mt-md-3" type="checkbox"/>
+                            <input type="hidden" name="id" value="{{ d[0] }}"/>
+                        </form>
+                        <mark class="text-break w-100 px-3 text-start rounded-pill" style="background-color: rgb(233, 112, 213);">
+                            {{ d[1] }}
+                        </mark>
+                        <form action="/delete" method='POST'>
+                            <button type="submit" class="btn btn-danger fw-bold float-end rounded-circle ms-1">&#10005;</button>
+                            <input type="hidden" name="delete_id" value="{{ d[0] }}" />
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="d-flex flex-column px-0">
+                <div class="card bg-success mb-2">Done</div>
+                <ul class="list-unstyled">
+                    {% for done in todos|done %}
+                    <li>
+                        <div class="fw-bolder text-start text-break ps-3 mb-1" ><del style="color: rgb(35, 12, 168);">{{ done[1] }}</del></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}
